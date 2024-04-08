@@ -7,13 +7,9 @@ const {BookingController} = require('../../controllers/index')
 const bookingController = new BookingController();
 const router = express.Router();
 
-router.get('/info', (req, res)=>{
-    return res.json({
-        message: 'booking routes'
-    })
-})
 router.post('/bookings', bookingController.create);
 router.post('/publish', bookingController.sendMessageToQueue);
+router.get('/info', bookingController.info);
 
 
 module.exports = router;

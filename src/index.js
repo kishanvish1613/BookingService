@@ -13,7 +13,8 @@ const setupAndStartServer = () => {
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: true}));
 
-    app.use('/bookingservice/api', apiRoutes);
+    app.use('/api', apiRoutes);
+    app.use('/bookingService/api', apiRoutes);
 
     app.listen(PORT, () => {
         if(process.env.DB_SYNC){

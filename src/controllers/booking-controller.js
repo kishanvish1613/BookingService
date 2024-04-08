@@ -1,12 +1,13 @@
-const {StatusCodes} = require('http-status-codes')
+const { StatusCodes } = require('http-status-codes');
 const {BookingService} = require('../services/index');
 const {createChannel, publishmessage} = require('../utils/messageQueue')
 const {REMINDER_BINDING_KEY} = require('../config/serverConfig');
 
 const bookingService = new BookingService();
-
 class BookingController {
-    constructor() {}
+    constructor() {
+
+    }
 
     async sendMessageToQueue(req, res) {
         const channel = await createChannel();
@@ -28,19 +29,37 @@ class BookingController {
     async create(req, res){
         try {
             const response = await bookingService.createBooking(req.body);
+            console.log(response);
             return res.status(StatusCodes.OK).json({
-                data: response,
-                success: true,
                 message: 'Successfully completed booking',
-                err: {}
+                success: true,
+                err: {},
+                data: response
+            })
+        }catch (error) {
+            return res.status(error.statusCode).json({
+                message: error.message,
+                success: false,
+                err: error.explanation,
+                data: {}
+            });
+        }
+    }
+
+    async info(req, res){
+        try {
+            return res.status(StatusCodes.OK).json({
+                message: "inside info",
+                success: true,
+                err: {},
             })
         } catch (error) {
             return res.status(error.statusCode).json({
-                data: {},
-                success: false,
                 message: error.message,
-                err: error.explanation
-            })
+                success: false,
+                err: error.explanation,
+                data: {}
+            });
         }
     }
     
